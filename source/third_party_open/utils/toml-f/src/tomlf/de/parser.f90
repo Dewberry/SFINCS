@@ -654,7 +654,7 @@ subroutine consume(parser, lexer, kind)
    if (parser%token%kind /= kind) then
       call syntax_error(parser%diagnostic, lexer, parser%token, &
          & "Invalid syntax in this context", &
-         & "expected "//stringify(toml_token(kind)))
+         & "expected "//stringify(toml_token(kind, 0, 0, 0)))
       return
    end if
 

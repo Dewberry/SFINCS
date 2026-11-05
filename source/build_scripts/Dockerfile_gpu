@@ -1,0 +1,18 @@
+FROM nvcr.io/nvidia/nvhpc:24.5-devel-cuda12.4-ubuntu22.04
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    autoconf automake build-essential libnetcdf-dev libtool m4 pkg-config tzdata \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY . /usr/src/sfincs
+WORKDIR /usr/src/sfincs
+RUN autoreconf -vif \
+    && FC=nvfortran CC=nvc FCFLAGS="-fast -O3 -DSIZEOF_PTRDIFF_T=999" ./configure --disable-shared --enable-openacc \
+    && grep -Eq '^OPENACC_FCFLAGS = -acc$' src/Makefile \
+    && grep -q 'OPENACC_FCFLAGS' src/Makefile \
+    && make OPENMP_FCFLAGS= OPENACC_FCFLAGS=-acc \
+    && make OPENMP_FCFLAGS= install
+
+VOLUME /data
+WORKDIR /data
+CMD ["sfincs"]
