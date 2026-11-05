@@ -33,4 +33,6 @@ jobs:
           context: ./source
           file: ./source/build_scripts/Dockerfile_gpu
           push: true
-          tags: ghcr.io/${{ steps.image.outputs.name }}:gpu
+          tags: |
+            ghcr.io/${{ steps.image.outputs.name }}:latest
+            ghcr.io/${{ steps.image.outputs.name }}:${{ github.sha }}

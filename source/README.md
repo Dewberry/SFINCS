@@ -16,21 +16,21 @@ You can also run sfincs using a docker container. For docker we have two version
 Run the published GPU image with Docker and the NVIDIA Container Toolkit installed:
 
 ``` shell
-    $ docker pull ghcr.io/deltares/sfincs:gpu
-    $ docker run --rm --gpus all -v "$(pwd):/data" ghcr.io/deltares/sfincs:gpu
+    $ docker pull ghcr.io/dewberry/sfincs:latest
+    $ docker run --rm --gpus all -v "$(pwd):/data" ghcr.io/dewberry/sfincs:latest
 ```
 
 To build the GPU image locally, run from the `source` directory:
 
 ``` shell
-    $ docker build -f build_scripts/Dockerfile_gpu -t deltares/sfincs-gpu .
-    $ docker run --rm --gpus all -v "$(pwd):/data" deltares/sfincs-gpu
+    $ docker build -f build_scripts/Dockerfile_gpu -t sfincs-gpu .
+    $ docker run --rm --gpus all -v "$(pwd):/data" sfincs-gpu
 ```
 
 If you are on a cluster that supports singularity, you can start sfincs using the singularity run command.
 
 ``` shell
-    $ singularity run -B$(pwd):/data --nv docker://deltares/sfincs-gpu
+    $ singularity run -B$(pwd):/data --nv docker://ghcr.io/dewberry/sfincs:latest
 ```
 
 # Building the linux version
